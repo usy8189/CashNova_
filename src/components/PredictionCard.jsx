@@ -9,15 +9,15 @@ export default function PredictionCard({ predictions }) {
     const criticalBudgets = budgetAlerts?.filter(b => b.status !== 'safe') || [];
 
     return (
-        <div className="card p-6 space-y-6">
+        <div className="card p-7 space-y-5">
             <div className="flex items-center justify-between">
                 <h3 className="text-sm font-medium text-white/40">Spending Forecast</h3>
                 <span
                     className={`text-xs px-2.5 py-1 rounded-full font-medium ${confidence === 'high'
-                            ? 'bg-emerald-500/10 text-emerald-400'
-                            : confidence === 'medium'
-                                ? 'bg-amber-500/10 text-amber-400'
-                                : 'bg-white/5 text-white/30'
+                        ? 'bg-emerald-500/10 text-emerald-400'
+                        : confidence === 'medium'
+                            ? 'bg-amber-500/10 text-amber-400'
+                            : 'bg-white/5 text-white/30'
                         }`}
                 >
                     {confidence} confidence
@@ -52,7 +52,7 @@ export default function PredictionCard({ predictions }) {
 
             {/* Savings Estimate */}
             {savingsEstimate && (
-                <div className="flex items-center justify-between pt-2 border-t border-white/[0.04]">
+                <div className="flex items-center justify-between pt-4 border-t border-white/[0.04]">
                     <div className="flex items-center gap-2">
                         {savingsEstimate.projectedSavings >= 0 ? (
                             <ArrowUp size={16} className="text-emerald-400" />
@@ -73,7 +73,7 @@ export default function PredictionCard({ predictions }) {
 
             {/* Budget Overflow Warnings */}
             {criticalBudgets.length > 0 && (
-                <div className="space-y-2 pt-2 border-t border-white/[0.04]">
+                <div className="space-y-2.5 pt-4 border-t border-white/[0.04]">
                     <p className="text-xs text-white/30 font-medium">Budget Alerts</p>
                     {criticalBudgets.slice(0, 3).map((b, i) => (
                         <div key={i} className="flex items-center justify-between text-xs">

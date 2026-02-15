@@ -89,7 +89,7 @@ export default function DashboardPage() {
     const isLoading = loading && transactions.length === 0;
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-14">
             {/* Alert Banner — top priority */}
             {alerts.length > 0 && <AlertBanner alerts={alerts} />}
 
@@ -114,14 +114,14 @@ export default function DashboardPage() {
             )}
 
             {/* ── SECTION 2: Quick Actions + Daily Budget + Streak ── */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
                 <QuickActions onAddTransaction={() => setShowForm(true)} />
                 <DailyBudgetTracker spentToday={todayExpense} dailyLimit={dailyLimit} />
                 <StreakBadge transactions={transactions} />
             </div>
 
             {/* ── SECTION 3: Chart + Predictions ── */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 {/* Chart — 2/3 */}
                 <div className="lg:col-span-2 card p-8">
                     <h2 className="text-sm font-medium text-white/40 mb-8">Monthly Overview</h2>
@@ -146,7 +146,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Prediction Card — 1/3 */}
-                <div className="lg:col-span-1 space-y-6">
+                <div className="lg:col-span-1 space-y-8">
                     <PredictionCard predictions={predictions} />
                     <MilestoneCard
                         transactionCount={transactions.length}
