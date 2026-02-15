@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react';
-import { DollarSign, TrendingUp, TrendingDown, Plus, Brain } from 'lucide-react';
+import { useEffect, useState, useCallback } from 'react';
+import { Plus, Brain } from 'lucide-react';
 import { useTransactionStore } from '@/store/transactionStore';
 import { useAuthStore } from '@/store/authStore';
 import { useInsightStore } from '@/store/insightStore';
 import { getGreeting, formatCurrency } from '@/lib/utils';
-import StatCard from '@/components/StatCard';
+import BalanceHero from '@/components/BalanceHero';
+import DailyBudgetTracker from '@/components/DailyBudgetTracker';
+import StreakBadge from '@/components/StreakBadge';
+import MilestoneCard from '@/components/MilestoneCard';
+import QuickActions from '@/components/QuickActions';
 import TransactionList from '@/components/TransactionList';
 import TransactionForm from '@/components/TransactionForm';
 import InsightCard from '@/components/InsightCard';
@@ -14,10 +18,26 @@ import { SkeletonCard, SkeletonRow } from '@/components/SkeletonLoader';
 import toast from 'react-hot-toast';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
+// ── Confetti burst helper ──
+function spawnConfetti() {
+    const colors = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
+    for (let i = 0; i < 20; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-particle';
+        el.style.left = `${Math.random() * 60 + 20}%`;
+        el.style.top = `${Math.random() * 20 + 30}%`;
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.animationDelay = `${Math.random() * 0.3}s`;
+        el.style.animationDuration = `${0.8 + Math.random() * 0.8}s`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 2000);
+    }
+}
+
 export default function DashboardPage() {
     const user = useAuthStore((s) => s.user);
     const { transactions, loading, fetchTransactions, addTransaction, getSummary, getMonthlyTrend } = useTransactionStore();
-    const { insights, predictions, alerts, fetchAll: fetchIntelligence, loading: insightLoading } = useInsightStore();
+    const { insights, predictions, alerts, fetchAll: fetchIntelligence } = useInsightStore();
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
@@ -27,25 +47,51 @@ export default function DashboardPage() {
 
     const summary = getSummary();
     const trend = getMonthlyTrend();
-    const recentTransactions = transactions.slice(0, 8);
+    const recentTransactions = transactions.slice(0, 6);
+
+    // Calculate today's spending
+    const today = new Date().toISOString().slice(0, 10);
+    const todayExpense = transactions
+        .filter(t => t.type === 'expense' && (t.date || '').startsWith(today))
+        .reduce((s, t) => s + t.amount, 0);
+
+    // Estimate daily budget from monthly budgets (or fallback)
+    const monthlyBudgetTotal = predictions?.budgetAlerts?.reduce((s, b) => s + b.limit, 0) || 0;
+    const dailyLimit = monthlyBudgetTotal > 0
+        ? Math.round(monthlyBudgetTotal / 30)
+        : summary.income > 0
+            ? Math.round((summary.income * 0.7) / 30) // 70% of income as spending budget
+            : 0;
 
     const handleAdd = async (data) => {
         const result = await addTransaction(data);
         if (result.success) {
-            toast.success('Transaction added');
-            // Refresh intelligence after new data
+            // Enhanced toast with amount
+            const amount = parseFloat(data.amount);
+            const isIncome = data.type === 'income';
+            toast.success(
+                `${isIncome ? '+' : '-'}${formatCurrency(amount)} ${isIncome ? 'earned' : 'spent'}!`,
+                {
+                    icon: isIncome ? '💰' : '💸',
+                    style: { background: '#191919', color: '#fff', border: '1px solid rgba(255,255,255,0.06)' },
+                }
+            );
+            // Confetti for income or large amounts
+            if (isIncome || amount >= 1000) {
+                spawnConfetti();
+            }
             fetchIntelligence();
         } else {
             toast.error(result.error);
         }
     };
 
+    const isLoading = loading && transactions.length === 0;
+
     return (
-        <div className="space-y-12">
+        <div className="space-y-10">
             {/* Alert Banner — top priority */}
-            {alerts.length > 0 && (
-                <AlertBanner alerts={alerts} />
-            )}
+            {alerts.length > 0 && <AlertBanner alerts={alerts} />}
 
             {/* Greeting */}
             <div>
@@ -55,26 +101,32 @@ export default function DashboardPage() {
                 <p className="text-sm text-white/40 mt-2">Here's your financial overview</p>
             </div>
 
-            {/* Stats */}
-            {loading && transactions.length === 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6" style={{ marginBottom: '48px' }}>
-                    <SkeletonCard /><SkeletonCard /><SkeletonCard />
-                </div>
+            {/* ── SECTION 1: Balance Hero ── */}
+            {isLoading ? (
+                <SkeletonCard />
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6" style={{ marginBottom: '48px' }}>
-                    <StatCard label="Income" value={summary.income} icon={TrendingUp} type="income" />
-                    <StatCard label="Expenses" value={summary.expense} icon={TrendingDown} type="expense" />
-                    <StatCard label="Balance" value={summary.balance} icon={DollarSign} type={summary.balance >= 0 ? 'income' : 'expense'} />
-                </div>
+                <BalanceHero
+                    income={summary.income}
+                    expense={summary.expense}
+                    balance={summary.balance}
+                    todayExpense={todayExpense}
+                />
             )}
 
-            {/* Chart + Predictions */}
+            {/* ── SECTION 2: Quick Actions + Daily Budget + Streak ── */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <QuickActions onAddTransaction={() => setShowForm(true)} />
+                <DailyBudgetTracker spentToday={todayExpense} dailyLimit={dailyLimit} />
+                <StreakBadge transactions={transactions} />
+            </div>
+
+            {/* ── SECTION 3: Chart + Predictions ── */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Chart — takes 2/3 */}
+                {/* Chart — 2/3 */}
                 <div className="lg:col-span-2 card p-8">
                     <h2 className="text-sm font-medium text-white/40 mb-8">Monthly Overview</h2>
                     {trend.length > 0 ? (
-                        <ResponsiveContainer width="100%" height={380}>
+                        <ResponsiveContainer width="100%" height={340}>
                             <BarChart data={trend} barGap={6}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                                 <XAxis dataKey="month" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 12 }} axisLine={false} tickLine={false} />
@@ -93,15 +145,19 @@ export default function DashboardPage() {
                     )}
                 </div>
 
-                {/* Prediction Card — takes 1/3 */}
-                <div className="lg:col-span-1">
+                {/* Prediction Card — 1/3 */}
+                <div className="lg:col-span-1 space-y-6">
                     <PredictionCard predictions={predictions} />
+                    <MilestoneCard
+                        transactionCount={transactions.length}
+                        totalSavings={Math.max(0, summary.balance)}
+                    />
                 </div>
             </div>
 
-            {/* AI Insights */}
+            {/* ── SECTION 4: AI Insights ── */}
             {insights.length > 0 && (
-                <div>
+                <div className="animate-slide-up">
                     <div className="flex items-center gap-2 mb-5">
                         <Brain size={18} className="text-purple-400" />
                         <h2 className="text-sm font-medium text-white/40">AI Insights</h2>
@@ -114,15 +170,15 @@ export default function DashboardPage() {
                 </div>
             )}
 
-            {/* Recent Transactions */}
-            <div>
+            {/* ── SECTION 5: Recent Transactions ── */}
+            <div className="animate-slide-up">
                 <div className="flex items-center justify-between mb-5">
                     <h2 className="text-sm font-medium text-white/40">Recent Transactions</h2>
                     <button onClick={() => setShowForm(true)} className="btn btn-primary text-xs py-2 px-3">
                         <Plus size={14} /> Add
                     </button>
                 </div>
-                {loading && transactions.length === 0 ? (
+                {isLoading ? (
                     <div className="space-y-2">
                         <SkeletonRow /><SkeletonRow /><SkeletonRow />
                     </div>
