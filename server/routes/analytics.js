@@ -1,10 +1,15 @@
 const router = require('express').Router();
 const { authenticate } = require('../middleware/auth');
 const prisma = require('../utils/prisma');
+const cache = require('../utils/cache');
 
 // GET /api/analytics/summary
 router.get('/summary', authenticate, async (req, res) => {
     try {
+        const cacheKey = `analytics:summary:${req.userId}`;
+        const cached = cache.get(cacheKey);
+        if (cached) return res.json(cached);
+
         const transactions = await prisma.transaction.findMany({
             where: { userId: req.userId },
         });
@@ -12,7 +17,9 @@ router.get('/summary', authenticate, async (req, res) => {
         const income = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
         const expense = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
 
-        res.json({ income, expense, balance: income - expense, transactionCount: transactions.length });
+        const result = { income, expense, balance: income - expense, transactionCount: transactions.length };
+        cache.set(cacheKey, result, 3 * 60 * 1000);
+        res.json(result);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -71,16 +78,10 @@ router.get('/monthly-comparison', authenticate, async (req, res) => {
 
         const [thisMonthTx, lastMonthTx] = await Promise.all([
             prisma.transaction.findMany({
-                where: {
-                    userId: req.userId,
-                    transactionDate: { gte: thisMonth },
-                },
+                where: { userId: req.userId, transactionDate: { gte: thisMonth } },
             }),
             prisma.transaction.findMany({
-                where: {
-                    userId: req.userId,
-                    transactionDate: { gte: lastMonth, lt: thisMonth },
-                },
+                where: { userId: req.userId, transactionDate: { gte: lastMonth, lt: thisMonth } },
             }),
         ]);
 
@@ -89,10 +90,66 @@ router.get('/monthly-comparison', authenticate, async (req, res) => {
             expense: txs.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0),
         });
 
+        res.json({ thisMonth: calc(thisMonthTx), lastMonth: calc(lastMonthTx) });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// GET /api/analytics/weekly-comparison
+router.get('/weekly-comparison', authenticate, async (req, res) => {
+    try {
+        const now = new Date();
+        const oneWeekAgo = new Date(now - 7 * 86400000);
+        const twoWeeksAgo = new Date(now - 14 * 86400000);
+
+        const [thisWeekTx, lastWeekTx] = await Promise.all([
+            prisma.transaction.findMany({
+                where: { userId: req.userId, type: 'expense', transactionDate: { gte: oneWeekAgo } },
+            }),
+            prisma.transaction.findMany({
+                where: { userId: req.userId, type: 'expense', transactionDate: { gte: twoWeeksAgo, lt: oneWeekAgo } },
+            }),
+        ]);
+
+        const sum = txs => txs.reduce((s, t) => s + t.amount, 0);
         res.json({
-            thisMonth: calc(thisMonthTx),
-            lastMonth: calc(lastMonthTx),
+            thisWeek: sum(thisWeekTx),
+            lastWeek: sum(lastWeekTx),
+            change: sum(lastWeekTx) > 0
+                ? Math.round(((sum(thisWeekTx) - sum(lastWeekTx)) / sum(lastWeekTx)) * 100)
+                : 0,
         });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// GET /api/analytics/daily-breakdown
+router.get('/daily-breakdown', authenticate, async (req, res) => {
+    try {
+        const now = new Date();
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+        const transactions = await prisma.transaction.findMany({
+            where: {
+                userId: req.userId,
+                type: 'expense',
+                transactionDate: { gte: monthStart },
+            },
+        });
+
+        const dailyMap = {};
+        transactions.forEach(t => {
+            const day = new Date(t.transactionDate).toISOString().slice(0, 10);
+            dailyMap[day] = (dailyMap[day] || 0) + t.amount;
+        });
+
+        const days = Object.entries(dailyMap)
+            .map(([date, amount]) => ({ date, amount }))
+            .sort((a, b) => a.date.localeCompare(b.date));
+
+        res.json(days);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

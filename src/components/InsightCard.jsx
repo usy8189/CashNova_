@@ -1,4 +1,4 @@
-import { Info, TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
+import { Info, TrendingUp, TrendingDown, AlertTriangle, ShieldAlert } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const typeConfig = {
@@ -6,6 +6,7 @@ const typeConfig = {
     positive: { icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
     negative: { icon: TrendingDown, color: 'text-red-400', bg: 'bg-red-500/10' },
     warning: { icon: AlertTriangle, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    alert: { icon: ShieldAlert, color: 'text-red-400', bg: 'bg-red-500/10' },
 };
 
 export default function InsightCard({ message, type = 'info' }) {
@@ -13,7 +14,10 @@ export default function InsightCard({ message, type = 'info' }) {
     const Icon = config.icon;
 
     return (
-        <div className="card flex items-start gap-3">
+        <div className={cn(
+            'card flex items-start gap-3',
+            type === 'alert' && 'border-red-500/20',
+        )}>
             <div className={cn('p-2 rounded-lg shrink-0', config.bg)}>
                 <Icon size={16} className={config.color} />
             </div>

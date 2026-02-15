@@ -3,6 +3,7 @@ const { z } = require('zod');
 const { authenticate } = require('../middleware/auth');
 const { validate } = require('../middleware/validate');
 const prisma = require('../utils/prisma');
+const cache = require('../utils/cache');
 
 const transactionSchema = z.object({
     amount: z.number().positive(),
@@ -26,6 +27,11 @@ router.post('/', authenticate, validate(transactionSchema), async (req, res) => 
                 transactionDate: new Date(date),
             },
         });
+        // Invalidate cached analytics/insights for this user
+        cache.invalidate(`insights:${req.userId}`);
+        cache.invalidate(`predictions:${req.userId}`);
+        cache.invalidate(`alerts:${req.userId}`);
+        cache.invalidate(`analytics:${req.userId}`);
         res.status(201).json(tx);
     } catch (err) {
         res.status(500).json({ error: err.message });

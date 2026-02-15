@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import { DollarSign, TrendingUp, TrendingDown, Plus } from 'lucide-react';
+import { DollarSign, TrendingUp, TrendingDown, Plus, Brain } from 'lucide-react';
 import { useTransactionStore } from '@/store/transactionStore';
 import { useAuthStore } from '@/store/authStore';
+import { useInsightStore } from '@/store/insightStore';
 import { getGreeting, formatCurrency } from '@/lib/utils';
 import StatCard from '@/components/StatCard';
 import TransactionList from '@/components/TransactionList';
 import TransactionForm from '@/components/TransactionForm';
+import InsightCard from '@/components/InsightCard';
+import AlertBanner from '@/components/AlertBanner';
+import PredictionCard from '@/components/PredictionCard';
 import { SkeletonCard, SkeletonRow } from '@/components/SkeletonLoader';
 import toast from 'react-hot-toast';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
@@ -13,9 +17,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGri
 export default function DashboardPage() {
     const user = useAuthStore((s) => s.user);
     const { transactions, loading, fetchTransactions, addTransaction, getSummary, getMonthlyTrend } = useTransactionStore();
+    const { insights, predictions, alerts, fetchAll: fetchIntelligence, loading: insightLoading } = useInsightStore();
     const [showForm, setShowForm] = useState(false);
 
-    useEffect(() => { fetchTransactions(); }, [fetchTransactions]);
+    useEffect(() => {
+        fetchTransactions();
+        fetchIntelligence();
+    }, [fetchTransactions, fetchIntelligence]);
 
     const summary = getSummary();
     const trend = getMonthlyTrend();
@@ -23,12 +31,22 @@ export default function DashboardPage() {
 
     const handleAdd = async (data) => {
         const result = await addTransaction(data);
-        if (result.success) toast.success('Transaction added');
-        else toast.error(result.error);
+        if (result.success) {
+            toast.success('Transaction added');
+            // Refresh intelligence after new data
+            fetchIntelligence();
+        } else {
+            toast.error(result.error);
+        }
     };
 
     return (
         <div className="space-y-12">
+            {/* Alert Banner — top priority */}
+            {alerts.length > 0 && (
+                <AlertBanner alerts={alerts} />
+            )}
+
             {/* Greeting */}
             <div>
                 <h1 className="text-3xl font-bold text-white">
@@ -50,7 +68,7 @@ export default function DashboardPage() {
                 </div>
             )}
 
-            {/* Chart + Recent Transactions */}
+            {/* Chart + Predictions */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Chart — takes 2/3 */}
                 <div className="lg:col-span-2 card p-8">
@@ -75,22 +93,42 @@ export default function DashboardPage() {
                     )}
                 </div>
 
-                {/* Recent Transactions — takes 1/3 */}
-                <div className="lg:col-span-1 space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-sm font-medium text-white/40">Recent Transactions</h2>
-                        <button onClick={() => setShowForm(true)} className="btn btn-primary text-xs py-2 px-3">
-                            <Plus size={14} /> Add
-                        </button>
-                    </div>
-                    {loading && transactions.length === 0 ? (
-                        <div className="space-y-2">
-                            <SkeletonRow /><SkeletonRow /><SkeletonRow />
-                        </div>
-                    ) : (
-                        <TransactionList transactions={recentTransactions} showActions={false} />
-                    )}
+                {/* Prediction Card — takes 1/3 */}
+                <div className="lg:col-span-1">
+                    <PredictionCard predictions={predictions} />
                 </div>
+            </div>
+
+            {/* AI Insights */}
+            {insights.length > 0 && (
+                <div>
+                    <div className="flex items-center gap-2 mb-5">
+                        <Brain size={18} className="text-purple-400" />
+                        <h2 className="text-sm font-medium text-white/40">AI Insights</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {insights.map((insight, i) => (
+                            <InsightCard key={i} message={insight.message} type={insight.type} />
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Recent Transactions */}
+            <div>
+                <div className="flex items-center justify-between mb-5">
+                    <h2 className="text-sm font-medium text-white/40">Recent Transactions</h2>
+                    <button onClick={() => setShowForm(true)} className="btn btn-primary text-xs py-2 px-3">
+                        <Plus size={14} /> Add
+                    </button>
+                </div>
+                {loading && transactions.length === 0 ? (
+                    <div className="space-y-2">
+                        <SkeletonRow /><SkeletonRow /><SkeletonRow />
+                    </div>
+                ) : (
+                    <TransactionList transactions={recentTransactions} showActions={false} />
+                )}
             </div>
 
             {showForm && <TransactionForm onSubmit={handleAdd} onClose={() => setShowForm(false)} />}
