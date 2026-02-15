@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  createdAt    DateTime      @default(now())
+  transactions Transaction[]
+  categories   Category[]
+  budgets      Budget[]
+  insights     InsightLog[]
+}
+
+model Transaction {
+  id              String   @id @default(uuid())
+  userId          String
+  amount          Float
+  type            String   // "income" or "expense"
+  category        String
+  description     String
+  transactionDate DateTime
+  createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([transactionDate])
+  @@index([category])
+}
+
+model Category {
+  id      String   @id @default(uuid())
+  userId  String
+  name    String
+  color   String   @default("#64748b")
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  budgets Budget[]
+
+  @@unique([userId, name])
+}
+
+model Budget {
+  id           String   @id @default(uuid())
+  userId       String
+  categoryId   String?
+  categoryName String
+  monthlyLimit Float
+  month        String   // "2026-02"
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category     Category? @relation(fields: [categoryId], references: [id])
+
+  @@index([userId])
+}
+
+model InsightLog {
+  id          String   @id @default(uuid())
+  userId      String
+  message     String
+  type        String   @default("info") // info, warning, positive, negative
+  generatedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
