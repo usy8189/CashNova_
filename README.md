@@ -27,10 +27,6 @@ CashNova is a modern personal finance dashboard that helps users track income, e
 
 * Local Storage *(can be upgraded to Firebase / MongoDB)*
 
-## 📷 Screenshots
-
-(Add screenshots here)
-
 ## ⚙️ Installation
 
 ```bash
