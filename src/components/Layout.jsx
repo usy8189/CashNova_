@@ -5,7 +5,7 @@ export default function Layout() {
     return (
         <div className="min-h-screen bg-[#0a0a0a] text-white/90">
             <Header />
-            <main style={{ padding: '48px 80px' }}>
+            <main style={{ padding: '72px 80px' }}>
                 <div className="animate-fade-in">
                     <Outlet />
                 </div>

@@ -20,7 +20,7 @@ export default function AnalyticsPage() {
 
     if (loading && transactions.length === 0) {
         return (
-            <div className="space-y-6">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
                 <h1 className="text-2xl font-bold text-white">Analytics</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <SkeletonCard /><SkeletonCard />
@@ -30,7 +30,7 @@ export default function AnalyticsPage() {
     }
 
     return (
-        <div className="space-y-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
             <div>
                 <h1 className="text-2xl font-bold text-white">Analytics</h1>
                 <p className="text-sm text-white/40 mt-1">Spending patterns and trends</p>

@@ -89,7 +89,7 @@ export default function DashboardPage() {
     const isLoading = loading && transactions.length === 0;
 
     return (
-        <div className="space-y-14">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
             {/* Alert Banner — top priority */}
             {alerts.length > 0 && <AlertBanner alerts={alerts} />}
 
@@ -123,8 +123,8 @@ export default function DashboardPage() {
             {/* ── SECTION 3: Chart + Predictions ── */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 {/* Chart — 2/3 */}
-                <div className="lg:col-span-2 card p-8">
-                    <h2 className="text-sm font-medium text-white/40 mb-8">Monthly Overview</h2>
+                <div className="lg:col-span-2 card p-10">
+                    <h2 className="text-sm font-medium text-white/40 mb-10">Monthly Overview</h2>
                     {trend.length > 0 ? (
                         <ResponsiveContainer width="100%" height={340}>
                             <BarChart data={trend} barGap={6}>

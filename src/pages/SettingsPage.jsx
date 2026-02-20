@@ -48,7 +48,7 @@ export default function SettingsPage() {
 
     return (
         <div className="flex justify-center">
-            <div className="w-full max-w-2xl space-y-10">
+            <div className="w-full max-w-2xl" style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
                 <div>
                     <h1 className="text-3xl font-bold text-white">Settings</h1>
                     <p className="text-sm text-white/40 mt-2">Manage your account</p>

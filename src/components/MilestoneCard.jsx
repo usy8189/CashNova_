@@ -23,7 +23,7 @@ export default function MilestoneCard({ transactionCount = 0, totalSavings = 0 }
 
     return (
         <div className="card">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                     <Trophy size={16} className="text-amber-400" />
                     <span className="text-sm font-medium text-white/40">Milestones</span>
@@ -32,7 +32,7 @@ export default function MilestoneCard({ transactionCount = 0, totalSavings = 0 }
             </div>
 
             {/* Earned badges */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-6">
                 {earned.map((m) => {
                     const Icon = m.icon;
                     return (
@@ -50,7 +50,7 @@ export default function MilestoneCard({ transactionCount = 0, totalSavings = 0 }
 
             {/* Next milestone */}
             {next && (
-                <div className="border-t border-white/[0.04] pt-3">
+                <div className="border-t border-white/[0.04] pt-5">
                     <p className="text-xs text-white/25 mb-2">Next milestone</p>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">

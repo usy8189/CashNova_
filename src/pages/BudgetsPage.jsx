@@ -36,7 +36,7 @@ export default function BudgetsPage() {
     const monthIndex = parseInt(month.split('-')[1]) - 1;
 
     return (
-        <div className="space-y-6">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>

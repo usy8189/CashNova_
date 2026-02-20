@@ -30,29 +30,17 @@ export default function BalanceHero({ income, expense, balance, todayExpense = 0
     const isPositive = balance >= 0;
 
     return (
-        <div className="balance-hero relative overflow-hidden rounded-2xl px-8 pt-8 pb-8">
+        <div className="balance-hero relative overflow-hidden rounded-2xl pt-12 pb-12">
             {/* Gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-transparent" />
             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
 
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                {/* Left side — Balance */}
-                <div>
-                    <div className="flex items-center gap-2 mb-3">
-                        <div className="p-2 rounded-xl bg-white/5">
-                            <Wallet size={20} className="text-indigo-400" />
-                        </div>
-                        <span className="text-sm font-medium text-white/40">Total Balance</span>
-                    </div>
-
-                    <h2 className={`text-5xl font-bold tracking-tight ${isPositive ? 'text-white' : 'text-red-400'}`}>
-                        <AnimatedValue value={Math.abs(balance)} />
-                    </h2>
-                    {!isPositive && <p className="text-xs text-red-400/60 mt-2">You're in deficit</p>}
-                </div>
-
-                {/* Right side — Income / Expense / Today */}
-                <div className="flex flex-row gap-4 items-center">
+            <div
+                className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+                style={{ paddingLeft: 'min(10vw, 120px)', paddingRight: 'min(10vw, 120px)' }}
+            >
+                {/* Left side — Income / Expense / Today */}
+                <div className="flex flex-row gap-6 items-center flex-wrap md:flex-nowrap justify-start">
                     <div className="flex items-center gap-3 bg-emerald-500/8 border border-emerald-500/10 rounded-xl px-6 py-4">
                         <ArrowUpRight size={20} className="text-emerald-400" />
                         <div>
@@ -76,6 +64,20 @@ export default function BalanceHero({ income, expense, balance, todayExpense = 0
                             </div>
                         </div>
                     )}
+                </div>
+
+                {/* Right side — Balance */}
+                <div className="text-right">
+                    <div className="flex items-center justify-end gap-2 mb-3">
+                        <span className="text-sm font-medium text-white/40">Total Balance</span>
+                        <div className="p-2 rounded-xl bg-white/5">
+                            <Wallet size={20} className="text-indigo-400" />
+                        </div>
+                    </div>
+                    <h2 className={`text-5xl font-bold tracking-tight ${isPositive ? 'text-white' : 'text-red-400'}`}>
+                        <AnimatedValue value={Math.abs(balance)} />
+                    </h2>
+                    {!isPositive && <p className="text-xs text-red-400/60 mt-2">You're in deficit</p>}
                 </div>
             </div>
         </div>
