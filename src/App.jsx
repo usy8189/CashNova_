@@ -6,6 +6,8 @@ import DashboardPage from '@/pages/DashboardPage';
 import TransactionsPage from '@/pages/TransactionsPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
 import BudgetsPage from '@/pages/BudgetsPage';
+import RecurringPage from '@/pages/RecurringPage';
+import GoalsPage from '@/pages/GoalsPage';
 import SettingsPage from '@/pages/SettingsPage';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
@@ -46,8 +48,10 @@ function App() {
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/transactions" element={<TransactionsPage />} />
+            <Route path="/recurring" element={<RecurringPage />} />
             <Route path="/analytics" element={<AnalyticsPage />} />
             <Route path="/budgets" element={<BudgetsPage />} />
+            <Route path="/goals" element={<GoalsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Route>
 

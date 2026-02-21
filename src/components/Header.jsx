@@ -1,11 +1,13 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, ArrowLeftRight, BarChart3, Target, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, ArrowLeftRight, BarChart3, Target, Settings, LogOut, Repeat, Flag } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { getInitials } from '@/lib/utils';
 
 const navItems = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/transactions', label: 'Transactions', icon: ArrowLeftRight },
+    { to: '/recurring', label: 'Recurring', icon: Repeat },
+    { to: '/goals', label: 'Goals', icon: Flag },
     { to: '/analytics', label: 'Analytics', icon: BarChart3 },
     { to: '/budgets', label: 'Budgets', icon: Target },
     { to: '/settings', label: 'Settings', icon: Settings },

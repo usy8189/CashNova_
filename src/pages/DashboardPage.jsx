@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Plus, Brain } from 'lucide-react';
+import { Plus, Brain, Download } from 'lucide-react';
 import { useTransactionStore } from '@/store/transactionStore';
 import { useAuthStore } from '@/store/authStore';
 import { useInsightStore } from '@/store/insightStore';
 import { getGreeting, formatCurrency } from '@/lib/utils';
+import { exportDashboardToPDF } from '@/lib/exportUtils';
 import BalanceHero from '@/components/BalanceHero';
 import DailyBudgetTracker from '@/components/DailyBudgetTracker';
 import StreakBadge from '@/components/StreakBadge';
@@ -89,16 +90,24 @@ export default function DashboardPage() {
     const isLoading = loading && transactions.length === 0;
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
+        <div id="dashboard-export-area" style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
             {/* Alert Banner — top priority */}
             {alerts.length > 0 && <AlertBanner alerts={alerts} />}
 
             {/* Greeting */}
-            <div>
-                <h1 className="text-3xl font-bold text-white">
-                    {getGreeting()}, {user?.name?.split(' ')[0] || 'there'}
-                </h1>
-                <p className="text-sm text-white/40 mt-2">Here's your financial overview</p>
+            <div className="flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold text-white">
+                        {getGreeting()}, {user?.name?.split(' ')[0] || 'there'}
+                    </h1>
+                    <p className="text-sm text-white/40 mt-2">Here's your financial overview</p>
+                </div>
+                <button
+                    onClick={() => exportDashboardToPDF('dashboard-export-area')}
+                    className="btn btn-ghost text-sm"
+                >
+                    <Download size={16} /> Export Report
+                </button>
             </div>
 
             {/* ── SECTION 1: Balance Hero ── */}
