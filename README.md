@@ -1,16 +1,56 @@
-# React + Vite
+# 💰 CashNova — Personal Finance Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CashNova is a modern personal finance dashboard that helps users track income, expenses, and financial trends through an intuitive and visually appealing interface.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* 📊 Track income and expenses
+* 📈 Financial overview dashboard
+* 🧾 Categorized spending insights
+* ⚡ Real-time balance updates
+* 🎨 Clean and responsive UI
+* 📱 Mobile-friendly design
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Frontend**
 
-## Expanding the ESLint configuration
+* React.js
+* Tailwind CSS
+* Chart libraries
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**State Management**
+
+* React Hooks / Context API
+
+**Storage**
+
+* Local Storage *(can be upgraded to Firebase / MongoDB)*
+
+## ⚙️ Installation
+
+```bash
+git clone https://github.com/usy8189/CashNova
+cd CashNova
+npm install
+npm run dev
+```
+
+## 🎯 Future Improvements
+
+* 🔐 User authentication
+* ☁️ Cloud database integration
+* 📊 Advanced analytics & insights
+* 🌙 Dark mode
+* 📄 Export financial reports
+* 🔔 Budget alerts & reminders
+
+## 💡 Why CashNova?
+
+Managing personal finances should be simple and insightful. CashNova provides a modern dashboard experience to help users make smarter financial decisions.
+
+## 👨‍💻 Author
+
+**Ujjwal Singh Yadav**
+
+If you like this project, feel free to ⭐ the repo!
