@@ -25,3 +25,7 @@ The financial dashboard serves as your mission control. It displays an immediate
 CashNova utilizes a powerful Machine Learning service integrated directly into your financial profile to generate custom AI-powered insights. This includes a spending forecast for the current month, projected savings trajectory, and intelligent tracking of financial milestones.
 
 
+### Transactions
+Easily record and organize all your financial movements. The dedicated transactions tab allows you to view detailed histories of income and expenses, search through past records, and categorize your spending for better tracking.
+
+
