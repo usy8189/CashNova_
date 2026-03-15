@@ -33,3 +33,7 @@ Easily record and organize all your financial movements. The dedicated transacti
 Never miss a bill again. Set up recurring transactions for subscriptions, rent, utilities, or EMIs. The system automatically records these at your scheduled intervals, ensuring your cash flow projections are always accurate and up-to-date.
 
 
+### Smart Goals
+Plan for massive life events or simple savings targets. Create financial goals with defined deadlines and target amounts, track your progress incrementally, and receive insight on whether you are "on track" to meet your purchase or savings targets.
+
+
