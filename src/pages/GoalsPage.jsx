@@ -108,19 +108,20 @@ export default function GoalsPage() {
 
                         return (
                             <div key={g.id} className="card p-6 flex flex-col group relative overflow-hidden transition-all hover:border-emerald-500/30">
-                                {/* Delete/Edit overlay */}
-                                <div className="absolute top-4 right-4 flex opacity-0 group-hover:opacity-100 transition-opacity gap-2">
-                                    <button onClick={() => { setEditData(g); setShowForm(true); }} className="p-1.5 rounded-lg bg-white/10 text-white/60 hover:text-white">
-                                        <Edit2 size={14} />
-                                    </button>
-                                    <button onClick={() => handleDelete(g.id)} className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20">
-                                        <Trash2 size={14} />
-                                    </button>
-                                </div>
-
-                                <div className="mb-6">
-                                    <h3 className="text-lg font-semibold text-white/90 mb-1">{g.name}</h3>
-                                    <p className="text-sm text-white/40">Deadline: {new Date(g.deadline).toLocaleDateString()}</p>
+                                {/* Header & Actions */}
+                                <div className="flex justify-between items-start mb-6">
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-white/90 mb-1">{g.name}</h3>
+                                        <p className="text-sm text-white/40">Deadline: {new Date(g.deadline).toLocaleDateString()}</p>
+                                    </div>
+                                    <div className="flex bg-white/5 rounded-lg border border-white/5">
+                                        <button onClick={() => { setEditData(g); setShowForm(true); }} className="p-2 text-white/60 hover:text-white transition-colors border-r border-white/5">
+                                            <Edit2 size={14} />
+                                        </button>
+                                        <button onClick={() => handleDelete(g.id)} className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors rounded-r-lg">
+                                            <Trash2 size={14} />
+                                        </button>
+                                    </div>
                                 </div>
 
                                 {/* Progress Math */}
