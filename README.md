@@ -63,6 +63,25 @@ Need your data offline? Easily export your entire financial history and activity
 - Google OAuth Authentication
 - ML Service (AI Insight Generation)
 
+## Project Screenshots
+
+Here is a visual overview of the application:
+
+**Dashboard**
+![Dashboard](./public/screenshots/dashboard.png)
+
+**Transactions**
+![Transactions](./public/screenshots/transactions.png)
+
+**Recurring**
+![Recurring](./public/screenshots/recurring.png)
+
+**Goals**
+![Goals](./public/screenshots/goals.png)
+
+**Analytics**
+![Analytics](./public/screenshots/analytics.png)
+
 ## Project Architecture
 
 The architecture relies on a robust React frontend connected to an Express API layer, which manages the core SQL database interactions and interfaces with our specialized ML service.
