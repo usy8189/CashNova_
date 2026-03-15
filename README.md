@@ -41,3 +41,7 @@ Plan for massive life events or simple savings targets. Create financial goals w
 Turn raw transaction data into visual knowledge. Our analytics suite provides insightful charts breaking down your income trends, spending patterns by category, and long-term financial behavior to identify areas where you can save more.
 
 
+### Budget System
+Maintain discipline over your spending. Plan category-based budgets (e.g., Groceries, Entertainment, Utilities) and monitor them dynamically. The system visually tracks how much of your allocated budget has been utilized in real-time.
+
+
