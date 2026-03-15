@@ -49,3 +49,23 @@ Maintain discipline over your spending. Plan category-based budgets (e.g., Groce
 Need your data offline? Easily export your entire financial history and activity as a structured JSON file, giving you complete data portability and personal offline backups.
 
 
+## Tech Stack
+
+**Frontend:**
+- React
+- Vite
+- TailwindCSS
+- Chart.js
+
+**Backend:**
+- Node.js
+- Express.js
+
+**Database:**
+- SQL Database
+
+**Services & Authentication:**
+- Google OAuth Authentication
+- ML Service (AI Insight Generation)
+
+
