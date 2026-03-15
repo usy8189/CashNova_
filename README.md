@@ -29,3 +29,7 @@ CashNova utilizes a powerful Machine Learning service integrated directly into y
 Easily record and organize all your financial movements. The dedicated transactions tab allows you to view detailed histories of income and expenses, search through past records, and categorize your spending for better tracking.
 
 
+### Recurring Payments
+Never miss a bill again. Set up recurring transactions for subscriptions, rent, utilities, or EMIs. The system automatically records these at your scheduled intervals, ensuring your cash flow projections are always accurate and up-to-date.
+
+
