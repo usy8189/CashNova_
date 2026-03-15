@@ -135,3 +135,20 @@ ML_SERVICE_URL=http://localhost:5001
 *(Also ensure your frontend has the necessary .env variables if configured via Vite)*
 
 
+## Running the Application
+
+**Start the Backend Server:**
+`ash
+cd server
+npm start
+`
+
+**Start the React Development Server:**
+`ash
+# In the project root
+npm run dev
+`
+
+The application is deployed live online.
+
+
