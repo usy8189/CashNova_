@@ -1,4 +1,4 @@
-﻿# CashNova
+# CashNova
 
 CashNova is an AI-powered financial management dashboard that allows users to track transactions, manage budgets, analyze spending, generate financial insights, and plan financial goals.
 
@@ -10,6 +10,7 @@ Welcome to CashNova! This application provides a comprehensive suite of tools to
 
 ## Feature Highlights
 
+- **Live Application**: [https://cashnova-mu.vercel.app/](https://cashnova-mu.vercel.app/)
 - **All-in-One Dashboard**: View your complete financial summary at a glance.
 - **AI-Powered Insights**: Actionable financial guidance generated dynamically.
 - **Smart Analytics**: Deep dive into spending behaviors with intuitive charts.
