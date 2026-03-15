@@ -37,3 +37,7 @@ Never miss a bill again. Set up recurring transactions for subscriptions, rent, 
 Plan for massive life events or simple savings targets. Create financial goals with defined deadlines and target amounts, track your progress incrementally, and receive insight on whether you are "on track" to meet your purchase or savings targets.
 
 
+### Analytics
+Turn raw transaction data into visual knowledge. Our analytics suite provides insightful charts breaking down your income trends, spending patterns by category, and long-term financial behavior to identify areas where you can save more.
+
+
