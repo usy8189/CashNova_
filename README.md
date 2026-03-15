@@ -152,3 +152,21 @@ npm run dev
 The application is deployed live online.
 
 
+## Screenshots
+
+**Dashboard**
+![Dashboard Screenshot](./public/screenshots/screenshot4.png)
+
+**Transactions**
+![Transactions Screenshot](./public/screenshots/screenshot3.png)
+
+**Analytics**
+![Analytics Screenshot](./public/screenshots/screenshot2.png)
+
+**Smart Goals**
+![Smart Goals Screenshot](./public/screenshots/screenshot5.png)
+
+**Recurring Payments**
+![Recurring Payments Screenshot](./public/screenshots/screenshot1.png)
+
+
