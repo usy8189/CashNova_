@@ -45,3 +45,7 @@ Turn raw transaction data into visual knowledge. Our analytics suite provides in
 Maintain discipline over your spending. Plan category-based budgets (e.g., Groceries, Entertainment, Utilities) and monitor them dynamically. The system visually tracks how much of your allocated budget has been utilized in real-time.
 
 
+### Export Reports
+Need your data offline? Easily export your entire financial history and activity as a structured JSON file, giving you complete data portability and personal offline backups.
+
+
