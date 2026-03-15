@@ -69,3 +69,69 @@ Need your data offline? Easily export your entire financial history and activity
 - ML Service (AI Insight Generation)
 
 
+## Project Architecture
+
+The architecture relies on a robust React frontend connected to an Express API layer, which manages the core SQL database interactions and interfaces with our specialized ML service.
+
+`	ext
+React Frontend
+â†“
+Express Backend
+â†“
+SQL Database
+â†“
+ML Service
+`
+"@
+
+# Commit 14
+Add-Commit -Message "docs: Add folder structure section" -ContentToAdd @"
+## Folder Structure
+
+`	ext
+CashNova/
+â”œâ”€â”€ src/            # React frontend application
+â”œâ”€â”€ server/         # Backend API and server logic
+â”œâ”€â”€ ml-service/     # AI insight generation models and endpoints
+â””â”€â”€ public/         # Static assets and images
+`
+"@
+
+# Commit 15
+Add-Commit -Message "docs: Add installation instructions" -ContentToAdd @"
+## Installation
+
+1. **Clone the repository**
+   `ash
+   git clone https://github.com/usy8189/CashNova.git
+   cd CashNova
+   `
+
+2. **Install frontend dependencies**
+   `ash
+   npm install
+   `
+
+3. **Install backend dependencies**
+   `ash
+   cd server
+   npm install
+   `
+"@
+
+# Commit 16
+Add-Commit -Message "docs: Add environment variables configuration" -ContentToAdd @"
+## Environment Variables
+
+To properly run the application, create a .env file in the server/ directory and include the required keys:
+
+`ini
+PORT=5000
+DATABASE_URL=your_sql_database_url
+GOOGLE_CLIENT_ID=your_google_oauth_client_id
+GOOGLE_CLIENT_SECRET=your_google_oauth_secret
+ML_SERVICE_URL=http://localhost:5001
+`
+*(Also ensure your frontend has the necessary .env variables if configured via Vite)*
+
+
