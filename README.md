@@ -17,3 +17,7 @@ Welcome to CashNova! This application provides a comprehensive suite of tools to
 - **Seamless Integrations**: Simplified Google OAuth and secure data handling.
 
 
+### Dashboard
+The financial dashboard serves as your mission control. It displays an immediate overview of your current balance, recent income, recent expenses, analytics snapshots, and AI-driven insights. It also offers quick-action buttons to directly add new transactions without navigating away.
+
+
