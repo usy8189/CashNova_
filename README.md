@@ -21,3 +21,7 @@ Welcome to CashNova! This application provides a comprehensive suite of tools to
 The financial dashboard serves as your mission control. It displays an immediate overview of your current balance, recent income, recent expenses, analytics snapshots, and AI-driven insights. It also offers quick-action buttons to directly add new transactions without navigating away.
 
 
+### AI Insights
+CashNova utilizes a powerful Machine Learning service integrated directly into your financial profile to generate custom AI-powered insights. This includes a spending forecast for the current month, projected savings trajectory, and intelligent tracking of financial milestones.
+
+
