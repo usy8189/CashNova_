@@ -170,3 +170,11 @@ The application is deployed live online.
 ![Recurring Payments Screenshot](./public/screenshots/screenshot1.png)
 
 
+## Future Improvements
+
+- Fully containerized deployments using Docker.
+- Advanced predictive modeling for investment returns.
+- Native mobile application using React Native.
+- Multi-currency support and live exchange rates.
+
+
