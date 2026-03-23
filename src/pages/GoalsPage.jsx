@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Plus, Target, Trash2, Edit2, TrendingUp, AlertCircle, ArrowRight } from 'lucide-react';
 import { useGoalStore } from '@/store/goalStore';
 import { useTransactionStore } from '@/store/transactionStore';
@@ -7,10 +7,14 @@ import { formatCurrency, cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
 export default function GoalsPage() {
-    const { goals, addGoal, updateGoal, deleteGoal } = useGoalStore();
+    const { goals, addGoal, updateGoal, deleteGoal, fetchGoals } = useGoalStore();
     const { getSummary } = useTransactionStore();
     const [showForm, setShowForm] = useState(false);
     const [editData, setEditData] = useState(null);
+
+    useEffect(() => {
+        fetchGoals();
+    }, [fetchGoals]);
 
     // Get current global savings to allocate towards goals
     // A more advanced app might allow explicit fund allocation per goal,

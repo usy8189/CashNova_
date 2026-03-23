@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Plus, X } from 'lucide-react';
 import { useBudgetStore } from '@/store/budgetStore';
+import { useTransactionStore } from '@/store/transactionStore';
 import { CATEGORIES, MONTHS } from '@/lib/constants';
 import BudgetProgressBar from '@/components/BudgetProgressBar';
 import { SkeletonCard } from '@/components/SkeletonLoader';
@@ -13,11 +14,32 @@ function getCurrentMonth() {
 
 export default function BudgetsPage() {
     const { budgets, loading, fetchBudgets, addBudget, deleteBudget } = useBudgetStore();
+    const { transactions, fetchTransactions } = useTransactionStore();
     const [month, setMonth] = useState(getCurrentMonth());
     const [showForm, setShowForm] = useState(false);
     const [form, setForm] = useState({ category: CATEGORIES[0].name, limit: '', month: getCurrentMonth() });
 
-    useEffect(() => { fetchBudgets(month); }, [fetchBudgets, month]);
+    useEffect(() => { 
+        fetchBudgets(month);
+        fetchTransactions();
+    }, [fetchBudgets, fetchTransactions, month]);
+
+    const dynamicBudgets = useMemo(() => {
+        return budgets.map((b) => {
+            const budgetTransactions = transactions.filter(t => 
+                t.type === 'expense' && 
+                t.category === b.category && 
+                (t.date || '').startsWith(b.month)
+            );
+            const computedSpent = budgetTransactions.reduce((acc, t) => acc + t.amount, 0);
+            return {
+                ...b,
+                spent: computedSpent,
+                remaining: (b.limit - computedSpent) || Number(b.limit),
+                percentage: computedSpent ? (computedSpent / b.limit) * 100 : 0
+            };
+        });
+    }, [budgets, transactions]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,11 +79,11 @@ export default function BudgetsPage() {
             </div>
 
             {/* Budget List */}
-            {loading && budgets.length === 0 ? (
+            {loading && dynamicBudgets.length === 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <SkeletonCard /><SkeletonCard /><SkeletonCard />
                 </div>
-            ) : budgets.length === 0 ? (
+            ) : dynamicBudgets.length === 0 ? (
                 <div className="card text-center py-16">
                     <p className="text-white/30 text-sm">No budgets for this month</p>
                     <button onClick={() => setShowForm(true)} className="btn btn-ghost mt-4 text-sm">
@@ -70,7 +92,7 @@ export default function BudgetsPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {budgets.map((b) => (
+                    {dynamicBudgets.map((b) => (
                         <div key={b.id} className="relative group">
                             <BudgetProgressBar
                                 category={b.category}

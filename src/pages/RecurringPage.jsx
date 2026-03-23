@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Repeat, Play, Pause, Trash2, Edit2 } from 'lucide-react';
 import { useRecurringStore } from '@/store/recurringStore';
 import RecurringForm from '@/components/RecurringForm';
@@ -7,9 +7,13 @@ import { formatCurrency, formatDate, cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
 export default function RecurringPage() {
-    const { recurringItems, addRecurring, updateRecurring, deleteRecurring, toggleStatus } = useRecurringStore();
+    const { recurringItems, addRecurring, updateRecurring, deleteRecurring, toggleStatus, fetchRecurring } = useRecurringStore();
     const [showForm, setShowForm] = useState(false);
     const [editData, setEditData] = useState(null);
+
+    useEffect(() => {
+        fetchRecurring();
+    }, [fetchRecurring]);
 
     const handleAdd = async (data) => {
         const result = await addRecurring(data);
