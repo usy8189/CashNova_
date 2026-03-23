@@ -42,7 +42,7 @@ export const useAuthStore = create((set) => ({
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
-            
+
             // Send to our backend to create a JWT session and add user to database if needed
             const { data } = await api.post('/auth/google', {
                 email: user.email,
@@ -50,7 +50,7 @@ export const useAuthStore = create((set) => ({
                 googleId: user.uid,
                 photoUrl: user.photoURL
             });
-            
+
             localStorage.setItem('user', JSON.stringify(data.user));
             localStorage.setItem('token', data.token);
             set({ user: data.user, token: data.token, isAuthenticated: true, loading: false });
