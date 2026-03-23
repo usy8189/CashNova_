@@ -46,7 +46,7 @@ export default function RegisterPage() {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                         <div className="space-y-2">
                             <label className="text-sm text-white/40 font-medium">Name</label>
                             <input
@@ -91,7 +91,7 @@ export default function RegisterPage() {
                             </div>
                         </div>
 
-                        <div className="pt-4">
+                        <div style={{ marginTop: '40px' }}>
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -102,7 +102,7 @@ export default function RegisterPage() {
                         </div>
                     </form>
 
-                    <div className="border-t border-white/20 mt-8 pt-8">
+                    <div className="border-t border-white/20" style={{ marginTop: '40px', paddingTop: '32px' }}>
                         <button
                             type="button"
                             onClick={handleGoogleSignIn}
@@ -120,7 +120,7 @@ export default function RegisterPage() {
                     </div>
                 </div>
 
-                <p className="text-center text-sm text-white/30">
+                <p className="text-center text-sm text-white/30" style={{ marginTop: '40px' }}>
                     Already have an account?{' '}
                     <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
                         Sign In

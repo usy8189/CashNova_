@@ -45,7 +45,7 @@ export default function LoginPage() {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                         <div className="space-y-2">
                             <label className="text-sm text-white/40 font-medium">Email</label>
                             <input
@@ -78,7 +78,7 @@ export default function LoginPage() {
                             </div>
                         </div>
 
-                        <div className="pt-4">
+                        <div style={{ marginTop: '40px' }}>
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -89,7 +89,7 @@ export default function LoginPage() {
                         </div>
                     </form>
 
-                    <div className="border-t border-white/20 mt-8 pt-8">
+                    <div className="border-t border-white/20" style={{ marginTop: '40px', paddingTop: '32px' }}>
                         <button
                             type="button"
                             onClick={handleGoogleSignIn}
@@ -107,7 +107,7 @@ export default function LoginPage() {
                     </div>
                 </div>
 
-                <p className="text-center text-sm text-white/30">
+                <p className="text-center text-sm text-white/30" style={{ marginTop: '40px' }}>
                     Don't have an account?{' '}
                     <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
                         Sign Up
