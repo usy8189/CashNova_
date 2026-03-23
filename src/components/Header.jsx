@@ -54,9 +54,18 @@ export default function Header() {
                 {/* User */}
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-bold">
-                            {user?.name ? getInitials(user.name) : '?'}
-                        </div>
+                        {user?.photoURL ? (
+                            <img
+                                src={user.photoURL}
+                                alt={user.name}
+                                className="w-8 h-8 rounded-full object-cover"
+                                referrerPolicy="no-referrer"
+                            />
+                        ) : (
+                            <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-bold">
+                                {user?.name ? getInitials(user.name) : '?'}
+                            </div>
+                        )}
                         <span className="hidden sm:block text-sm text-white/60 font-medium">
                             {user?.name || 'Guest'}
                         </span>
