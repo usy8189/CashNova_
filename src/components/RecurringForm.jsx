@@ -3,10 +3,13 @@ import { X } from 'lucide-react';
 import { CATEGORIES } from '@/lib/constants';
 
 export default function RecurringForm({ onSubmit, onClose, editingItem }) {
+    const expenseCategories = CATEGORIES.filter(c => !['Salary', 'Freelance', 'Investment'].includes(c.name));
+    const incomeCategories = CATEGORIES.filter(c => ['Salary', 'Freelance', 'Investment', 'Other'].includes(c.name));
+
     const [formData, setFormData] = useState({
         type: 'expense',
         amount: '',
-        category: CATEGORIES.EXPENSE[0].id,
+        category: expenseCategories[0]?.name || CATEGORIES[0].name,
         title: '',
         frequency: 'monthly',
         startDate: new Date().toISOString().split('T')[0],
@@ -27,7 +30,9 @@ export default function RecurringForm({ onSubmit, onClose, editingItem }) {
             ...prev,
             [name]: type === 'checkbox' ? checked : value,
             ...(name === 'type' && {
-                category: value === 'income' ? CATEGORIES.INCOME[0].id : CATEGORIES.EXPENSE[0].id,
+                category: value === 'income' 
+                    ? incomeCategories[0]?.name || CATEGORIES[0].name 
+                    : expenseCategories[0]?.name || CATEGORIES[0].name,
             }),
         }));
     };
@@ -40,7 +45,7 @@ export default function RecurringForm({ onSubmit, onClose, editingItem }) {
         });
     };
 
-    const categories = formData.type === 'income' ? CATEGORIES.INCOME : CATEGORIES.EXPENSE;
+    const categories = formData.type === 'income' ? incomeCategories : expenseCategories;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
@@ -111,8 +116,8 @@ export default function RecurringForm({ onSubmit, onClose, editingItem }) {
                             onChange={handleChange}
                         >
                             {categories.map((c) => (
-                                <option key={c.id} value={c.id}>
-                                    {c.icon} {c.label}
+                                <option key={c.name} value={c.name}>
+                                    {c.name}
                                 </option>
                             ))}
                         </select>

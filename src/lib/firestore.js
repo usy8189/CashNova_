@@ -65,11 +65,22 @@ export const firestoreService = {
         try {
             const q = query(
                 collection(db, collectionName),
-                where("userId", "==", userId),
-                orderBy(orderByField, orderDirection)
+                where("userId", "==", userId)
             );
             const querySnapshot = await getDocs(q);
-            const results = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            let results = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            
+            // Sort client-side to avoid requiring Firebase composite indexes
+            if (orderByField) {
+                results.sort((a, b) => {
+                    const valA = a[orderByField] || '';
+                    const valB = b[orderByField] || '';
+                    if (valA < valB) return orderDirection === 'asc' ? -1 : 1;
+                    if (valA > valB) return orderDirection === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            }
+            
             return handleResponse(results);
         } catch (error) {
             return handleError(error);

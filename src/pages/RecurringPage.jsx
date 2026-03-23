@@ -11,20 +11,24 @@ export default function RecurringPage() {
     const [showForm, setShowForm] = useState(false);
     const [editData, setEditData] = useState(null);
 
-    const handleAdd = (data) => {
-        const result = addRecurring(data);
+    const handleAdd = async (data) => {
+        const result = await addRecurring(data);
         if (result.success) {
             toast.success('Recurring transaction added');
             setShowForm(false);
+        } else {
+            toast.error(result.error || 'Failed to add');
         }
     };
 
-    const handleEdit = (data) => {
-        const result = updateRecurring(editData.id, data);
+    const handleEdit = async (data) => {
+        const result = await updateRecurring(editData.id, data);
         if (result.success) {
             toast.success('Recurring transaction updated');
             setShowForm(false);
             setEditData(null);
+        } else {
+            toast.error(result.error || 'Failed to update');
         }
     };
 
