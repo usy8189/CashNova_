@@ -13,7 +13,7 @@ Welcome to CashNova! This application provides a comprehensive suite of tools to
 
 ## Feature Highlights
 
-- **Live Application**: [https://cashnova-mu.vercel.app/](https://cashnova-mu.vercel.app/)
+- **Live Application**: [https://cash-nova-beta.vercel.app/](https://cash-nova-beta.vercel.app/)
 - **All-in-One Dashboard**: View your complete financial summary at a glance.
 - **AI-Powered Insights**: Actionable financial guidance generated dynamically.
 - **Smart Analytics**: Deep dive into spending behaviors with intuitive charts.
@@ -153,7 +153,7 @@ npm start
 npm run dev
 ```
 
-The application is deployed live at [https://cashnova-mu.vercel.app/](https://cashnova-mu.vercel.app/).
+The application is deployed live at https://cash-nova-beta.vercel.app/](https://cash-nova-beta.vercel.app/).
 
 ## Future Improvements
 
