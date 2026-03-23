@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -26,6 +27,27 @@ function AuthRoute({ children }) {
 }
 
 function App() {
+  const initialized = useAuthStore((s) => s.initialized);
+  const initAuthListener = useAuthStore((s) => s.initAuthListener);
+
+  // Start the Firebase auth listener once on mount
+  useEffect(() => {
+    const unsubscribe = initAuthListener();
+    return () => unsubscribe();
+  }, [initAuthListener]);
+
+  // Show loading until Firebase has checked the auth state
+  if (!initialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-3 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
+          <span className="text-white/40 text-sm">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <ErrorBoundary>
       <BrowserRouter>
