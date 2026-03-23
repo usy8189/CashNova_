@@ -110,7 +110,7 @@ CashNova/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/usy8189/CashNova.git
+   git clone https://github.com/usy8189/CashNova_.git
    cd CashNova
    ```
 
@@ -153,7 +153,7 @@ npm start
 npm run dev
 ```
 
-The application is deployed live at https://cash-nova-beta.vercel.app/](https://cash-nova-beta.vercel.app/).
+The application is deployed live at [https://cash-nova-beta.vercel.app/](https://cash-nova-beta.vercel.app/).
 
 ## Future Improvements
 
