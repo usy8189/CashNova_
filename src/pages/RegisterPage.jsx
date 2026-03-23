@@ -118,7 +118,6 @@ export default function RegisterPage() {
                             Google
                         </button>
                     </div>
-                    </form>
                 </div>
 
                 <p className="text-center text-sm text-white/30">
