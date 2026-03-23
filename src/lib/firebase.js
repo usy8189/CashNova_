@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, browserLocalPersistence, setPersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -16,5 +16,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+
+// Ensure auth state persists across browser sessions (tabs, refreshes)
+setPersistence(auth, browserLocalPersistence).catch(console.error);
 
 export { app, auth, db, googleProvider };
